@@ -1503,6 +1503,12 @@ class SMBMCAScanParser(MCAScanParser, LinearScanParser, SMBScanParser):
             # the .par file, and defer implementation for absolute
             # motor postions to later.
             return super().get_spec_scan_motor_vals(relative=True)
+        try:
+            pars = self.pars
+        except:
+            # No .json file for pars! Default to parent class's
+            # implementation.
+            return super().get_spec_scan_motor_vals(relative=relative)
         if self.spec_macro in ('flymesh', 'mesh', 'flydmesh', 'dmesh'):
             # Fast motor
             mot_vals_axis0 = np.linspace(self.pars['fly_axis0_start'],
